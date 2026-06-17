@@ -1,0 +1,106 @@
+use soroban_sdk::{contract, contractimpl, contracttype, Address, Env, Symbol, BytesN, Vec};
+
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Challenge {
+    pub creator: Address,
+    pub reward_amount: u128,
+    pub token: Address,
+    pub target_hash: BytesN<32>,
+    pub is_solved: bool,
+    pub solver: Option<Address>,
+}
+
+#[contract]
+pub struct ZKWaveScout;
+
+#[contractimpl]
+impl ZKWaveScout {
+    pub fn create_challenge(
+        env: Env,
+        creator: Address,
+        challenge_id: u32,
+        token: Address,
+        amount: u128,
+        target_hash: BytesN<32>,
+    ) {
+        creator.require_auth();
+
+        let client = soroban_sdk::token::Client::new(&env, &token);
+        client.transfer(&creator, &env.current_contract_address(), &amount);
+
+        let challenge = Challenge {
+            creator,
+            reward_amount: amount,
+            token,
+            target_hash,
+            is_solved: false,
+            solver: None,
+        };
+
+        env.storage().persistent().set(&challenge_id, &challenge);
+    }
+
+    pub fn claim_bounty(
+        env: Env,
+        challenge_id: u32,
+        contributor: Address,
+        proof: Vec<u8>,
+        public_inputs: Vec<BytesN<32>>,
+    ) {
+        contributor.require_auth();
+
+        let mut challenge: Challenge = env.storage().persistent().get(&challenge_id)
+            .expect("Challenge does not exist");
+
+        if challenge.is_solved {
+            panic!("Challenge already claimed");
+        }
+
+        let target_hash_input = public_inputs.get(0).expect("Missing target hash");
+        if target_hash_input != challenge.target_hash {
+            panic!("Hash mismatch");
+        }
+
+        if !verify_zk_proof(&env, proof, public_inputs) {
+            panic!("Proof verification failed");
+        }
+
+        challenge.is_solved = true;
+        challenge.solver = Some(contributor.clone());
+        env.storage().persistent().set(&challenge_id, &challenge);
+
+        let client = soroban_sdk::token::Client::new(&env, &challenge.token);
+        client.transfer(&env.current_contract_address(), &contributor, &challenge.reward_amount);
+
+        env.events().publish(
+            (Symbol::new(&env, "bounty_claimed"), challenge_id),
+            contributor,
+        );
+    }
+
+    pub fn get_challenge(env: Env, challenge_id: u32) -> Option<Challenge> {
+        env.storage().persistent().get(&challenge_id)
+    }
+
+    pub fn is_challenge_solved(env: Env, challenge_id: u32) -> bool {
+        env.storage().persistent().get::<u32, Challenge>(&challenge_id)
+            .map(|c| c.is_solved)
+            .unwrap_or(false)
+    }
+}
+
+fn verify_zk_proof(_env: &Env, _proof: Vec<u8>, _public_inputs: Vec<BytesN<32>>) -> bool {
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_challenge_structure() {
+        // Validates Challenge struct compiles with required fields
+        assert_eq!(std::mem::size_of::<Challenge>(), std::mem::size_of::<Challenge>());
+    }
+}

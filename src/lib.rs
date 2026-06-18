@@ -54,6 +54,7 @@ impl ZKWaveScout {
         proof: Vec<u8>,
         public_inputs: Vec<BytesN<32>>,
     ) {
+        // Validate proof structure
         contributor.require_auth();
 
         let mut challenge: Challenge = env.storage().persistent().get(&challenge_id)

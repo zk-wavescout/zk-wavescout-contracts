@@ -10,3 +10,4 @@ pub fn validate_public_inputs(inputs: &Vec<BytesN<32>>) -> bool {
     inputs.len() >= 1
 }
 // Placeholder for real BN254 verification
+pub const MIN_PROOF_SIZE: usize = 128;

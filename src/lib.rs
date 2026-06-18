@@ -118,3 +118,4 @@ mod tests {
 }
 // TODO: Implement replay protection with nonce
 // TODO: Implement batch claim support
+// TODO: Add challenge cancellation

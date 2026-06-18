@@ -1,0 +1,7 @@
+[submodule "circuits"]
+	path = circuits
+	url = https://github.com/zk-wavescout/zk-wavescout-circuits.git
+
+[submodule "coordinator"]
+	path = coordinator
+	url = https://github.com/zk-wavescout/zk-wavescout-coordinator.git

@@ -41,8 +41,9 @@ src/
 
 ## 🔗 Linkage
 
-- **Frontend**: TS bindings via `soroban-client`
-- **Backend**: Listens for `bounty_claimed` events
+- **Circuits**: [zk-wavescout-circuits](https://github.com/zk-wavescout/zk-wavescout-circuits) — Noir ZK circuit definitions
+- **Coordinator**: [zk-wavescout-coordinator](https://github.com/zk-wavescout/zk-wavescout-coordinator) — Event listener & relayer
+- **Integration**: Emits `bounty_claimed` events → Coordinator processes claims → Merges to GitHub
 
 ## Deploy
 

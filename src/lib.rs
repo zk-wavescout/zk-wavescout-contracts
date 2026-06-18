@@ -116,3 +116,4 @@ mod tests {
         assert_eq!(std::mem::size_of::<Challenge>(), std::mem::size_of::<Challenge>());
     }
 }
+// TODO: Implement replay protection with nonce

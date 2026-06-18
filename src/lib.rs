@@ -57,7 +57,7 @@ impl ZKWaveScout {
         contributor.require_auth();
 
         let mut challenge: Challenge = env.storage().persistent().get(&challenge_id)
-            .expect("Challenge does not exist");
+            .expect("ERR_CHALLENGE_NOT_FOUND");
 
         if challenge.is_solved {
             panic!("Challenge already claimed");

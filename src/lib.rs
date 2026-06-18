@@ -1,5 +1,9 @@
 use soroban_sdk::{contract, contractimpl, contracttype, Address, Env, Symbol, BytesN, Vec};
 
+mod verification;
+mod events;
+mod storage;
+
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Challenge {

@@ -56,6 +56,9 @@ impl ZKWaveScout {
     ) {
         // Validate proof structure
         contributor.require_auth();
+        if !verification::validate_proof_structure(&proof) {
+            panic!("Invalid proof structure");
+        }
 
         let mut challenge: Challenge = env.storage().persistent().get(&challenge_id)
             .expect("ERR_CHALLENGE_NOT_FOUND");

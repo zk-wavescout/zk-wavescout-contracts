@@ -122,3 +122,4 @@ mod tests {
 // TODO: Add access control layer
 // TODO: Implement challenge enumeration
 // TODO: Add comprehensive security audit
+/// Core ZK WaveScout contract

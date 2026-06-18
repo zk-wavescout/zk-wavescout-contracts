@@ -140,3 +140,4 @@ mod integration_tests {
 // Enhancement 5
 // Enhancement 6
 // Enhancement 7
+// Enhancement 8

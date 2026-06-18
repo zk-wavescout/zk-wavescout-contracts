@@ -121,3 +121,4 @@ mod tests {
 // TODO: Add challenge cancellation
 // TODO: Add access control layer
 // TODO: Implement challenge enumeration
+// TODO: Add comprehensive security audit

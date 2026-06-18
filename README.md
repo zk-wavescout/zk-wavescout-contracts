@@ -14,9 +14,9 @@ soroban contract build
 ```
 src/
 ├── lib.rs          # Core contract (40% complete)
-├── verification.rs # TODO: ZK proof verification module
-├── events.rs       # TODO: Event emission utilities
-└── storage.rs      # TODO: Persistent storage helpers
+├── verification.rs # ISSUE: ZK proof verification module
+├── events.rs       # ISSUE: Event emission utilities
+└── storage.rs      # ISSUE: Persistent storage helpers
 ```
 
 ## ✅ Implemented (40%)
@@ -26,7 +26,7 @@ src/
 - `get_challenge()` — Query challenge data
 - `is_challenge_solved()` — Check claim status
 
-## ❌ TODO (60%) - Create Issues
+## ❌ ISSUE (60%) - Create Issues
 
 | Issue | Task | Priority |
 |-------|------|----------|
@@ -57,4 +57,4 @@ soroban contract deploy \
   --network testnet
 ```
 
-See TODO items for remaining implementation.
+See ISSUE items for remaining implementation.

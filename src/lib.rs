@@ -120,3 +120,4 @@ mod tests {
 // TODO: Implement batch claim support
 // TODO: Add challenge cancellation
 // TODO: Add access control layer
+// TODO: Implement challenge enumeration
